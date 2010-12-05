@@ -12,8 +12,8 @@ You probably can't use this in production yet. Among the reasons are:
 - No server-server communication is supported
 - This is not stable afterall
 
-Usage:
-------
+Usage
+-----
 
     var irc = require('./lib/irc');
     
