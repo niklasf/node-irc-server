@@ -7,11 +7,13 @@ Implementation of the
 Dependencies
 ------------
 Required:
-* Default node.js installation
-* [node-logger](https://github.com/quirkey/node-logger)
+
+- Default node.js installation
+- [node-logger](https://github.com/quirkey/node-logger)
 
 Optional:
-* [nodeunit](https://github.com/caolan/nodeunit) to run testcases
+
+- [nodeunit](https://github.com/caolan/nodeunit) to run testcases
 
 Contact
 -------
