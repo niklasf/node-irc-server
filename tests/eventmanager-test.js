@@ -32,3 +32,22 @@ exports["test override behaviour"] = function(test) {
 	
 	test.done();
 };
+
+exports["test EventManager.negotiate vs EventManager.emit"] = function(test) {
+	test.expect(2 + 2);
+
+	var manager = new EventManager();
+	manager.on('event that does not exist', function() {
+		test.ok(true, "event emitted twice");
+	});
+	
+	test.doesNotThrow(function() {
+		manager.emit('event that does not exist');
+	});
+	
+	test.throws(function() {
+		manager.negotiate('event that does not exist');
+	})
+	
+	test.done();
+};
