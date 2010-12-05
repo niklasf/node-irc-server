@@ -18,8 +18,8 @@ exports["test override behaviour"] = function(test) {
 	manager.override('test', function(arg) {
 		test.equals(arg, 'arg', "called twice");
 		if(i === 0) {
-			return next();
 			i++;
+			return this.next(arg);
 		} else {
 			return true;
 		}
