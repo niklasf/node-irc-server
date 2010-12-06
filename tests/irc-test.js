@@ -17,9 +17,9 @@ exports["ping the server"] = function(test) {
 	
 	client.deliver = function(from, to, command, args) {
 		test.equals(from, server.name, 'back from server');
-		test.equals(to, server.name, 'Back to the server');
+		test.strictEqual(to, null, 'no aim');
 		test.equals(command, 'PONG', 'sent PONG');
-		test.equals(args, ['test']);
+		test.deepEqual(args, [server.name, 'test']);
 	};
 	
 	server.addClient(client);
