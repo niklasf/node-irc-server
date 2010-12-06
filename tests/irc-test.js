@@ -9,15 +9,14 @@ exports["test as network server"] = function(test) {
 };
 
 exports["ping the server"] = function(test) {
-	test.expect(4);
+	test.expect(3);
 
 	var server = irc.createServer();
 	
 	var client = new EventEmitter();
 	
-	client.deliver = function(from, to, command, args) {
+	client.deliver = function(from, command, args) {
 		test.equals(from, server.name, 'back from server');
-		test.strictEqual(to, null, 'no aim');
 		test.equals(command, 'PONG', 'sent PONG');
 		test.deepEqual(args, [server.name, 'test']);
 	};
