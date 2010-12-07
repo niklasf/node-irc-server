@@ -27,3 +27,45 @@ exports["ping the server"] = function(test) {
 	
 	test.done();
 };
+
+exports["unregistered quit"] = function(test) {
+	test.expect(2);
+
+	var server = irc.createServer();
+	
+	var client = new EventEmitter();
+	client.deliver = function(from, command, params) {
+		test.equals(command, 'ERROR');
+	};
+	client.end = function() {
+		test.ok(true, 'Connection closed');
+	};
+	server.addClient(client);
+	
+	client.emit('message', 'QUIT :See you');
+
+	test.done();
+};
+
+/* exports["authenticate"] = function(test) {
+	test.expect(1);
+	
+	var server = irc.createServer();
+	
+	var client = new EventEmitter();
+	
+	var i = 0;
+	client.deliver = function(from, command, args) {
+		i++;
+		
+		// TODO: Write test
+	};
+	
+	server.addClient(client);
+	
+	client.emit('message', 'USER username hostname servername :realname');
+	client.emit('message', 'NICK nick');
+	
+	test.ok(client.registered);
+	test.done();
+}; */
