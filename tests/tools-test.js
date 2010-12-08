@@ -68,3 +68,15 @@ exports["array delete"] = function(test) {
 	
 	test.done();
 };
+
+exports["scandinavian case conversion"] = function(test) {
+	test.expect(3);
+
+	test.strictEqual("{}|^".toScandinavianLowerCase(), '{}|^');
+	test.strictEqual("\\[]~".toScandinavianLowerCase(), '|{}^');
+	test.strictEqual(
+			"Any text \t in [scandi]~LowerCase \\ lang".toScandinavianLowerCase,
+			"any text \t in {scandi}^LowerCase | lang");
+	
+	test.done();
+};
