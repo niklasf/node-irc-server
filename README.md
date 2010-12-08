@@ -26,6 +26,7 @@ Required:
 
 - Default node.js installation
 - [node-logger](https://github.com/quirkey/node-logger)
+- [sprintf](https://github.com/maritz/node-sprintf)
 
 Optional:
 
