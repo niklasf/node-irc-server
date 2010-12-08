@@ -47,18 +47,16 @@ exports["unregistered quit"] = function(test) {
 	test.done();
 };
 
-/* exports["authenticate"] = function(test) {
-	test.expect(1);
+exports["authenticate"] = function(test) {
+	test.expect(3);
 	
 	var server = irc.createServer();
 	
 	var client = new EventEmitter();
 	
-	var i = 0;
+	var recieved = [];
 	client.deliver = function(from, command, args) {
-		i++;
-		
-		// TODO: Write test
+		recieved.push(command.toString());
 	};
 	
 	server.addClient(client);
@@ -66,6 +64,9 @@ exports["unregistered quit"] = function(test) {
 	client.emit('message', 'USER username hostname servername :realname');
 	client.emit('message', 'NICK nick');
 	
-	test.ok(client.registered);
+	test.ok(client.registered, 'Client registered');
+	test.ok(recieved.contains('001', '002', '003', '004'), 'Welcome recieved');
+	test.ok(recieved.contains('375', '372', '376'), 'Message of the day');
+
 	test.done();
-}; */
+};
