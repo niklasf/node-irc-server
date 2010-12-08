@@ -31,6 +31,7 @@ Required:
 Optional:
 
 - [nodeunit](https://github.com/caolan/nodeunit) to run testcases
+- [nodelint](https://github.com/tav/nodelint) to run code quality checks
 
 Contact
 -------

@@ -1,9 +1,9 @@
-#!/usr/local/bin/node
+#!/bin/bash
 
-require.paths.push(__dirname);
-require.paths.push(__dirname + '/lib');
-require.paths.push(__dirname + '/tests');
+echo "=============== UNIT TESTS ==============="
+nodeunit tests/
 
-var runner = require('nodeunit').reporters.default;
-process.chdir(__dirname);
-runner.run(['tests']);
+echo ""
+echo ""
+echo "============== CODE QUALITY =============="
+nodelint lib/* tests/*
