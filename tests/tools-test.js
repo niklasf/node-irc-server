@@ -1,6 +1,6 @@
 var tools = require('../lib/tools');
 
-exports["test object merging"] = function(test) {
+exports["test object merging"] = function (test) {
 	test.expect(1);
 
 	test.deepEqual(tools.merge({
@@ -20,18 +20,18 @@ exports["test object merging"] = function(test) {
 	test.done();
 };
 
-exports["get unixtime"] = function(test) {
+exports["get unixtime"] = function (test) {
 	test.expect(2);
 	test.ok(tools.unixtime() > 1291590000, 'december 06 in 2010 is over');
 	test.ok(tools.unixtime() < 2000000000, 'were not *that* far in the future');
 	test.done();
 };
 
-exports["array contains"] = function(test) {
+exports["array contains"] = function (test) {
 	test.expect(5 + 4 + 2 + 2);
 
-	var one = [1, 2, 3, 4, 5];
-	var two = ['one', 'two', 'three', 'four', 'five'];
+	var one = [1, 2, 3, 4, 5],
+		two = ['one', 'two', 'three', 'four', 'five'];
 	
 	test.ok(one.contains(2));
 	test.ok(one.contains(4, 5));
@@ -53,7 +53,7 @@ exports["array contains"] = function(test) {
 	test.done();
 };
 
-exports["array delete"] = function(test) {
+exports["array delete"] = function (test) {
 	test.expect(5 + 1);
 	
 	var array = ['one', 'two', 'three', 1, 2, 3];
@@ -69,7 +69,7 @@ exports["array delete"] = function(test) {
 	test.done();
 };
 
-exports["scandinavian case conversion"] = function(test) {
+exports["scandinavian case conversion"] = function (test) {
 	test.expect(3);
 
 	test.strictEqual("{}|^".toScandinavianLowerCase(), '{}|^');

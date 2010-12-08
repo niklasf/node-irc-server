@@ -1,24 +1,24 @@
 var EventManager = require('../lib/eventmanager').EventManager;
 
-exports["test override behaviour"] = function(test) {
+exports["test override behaviour"] = function (test) {
 	test.expect(2 + 1 + 2 + 2);
 
-	var manager = new EventManager();
+	var manager = new EventManager(),
+		i = 0;
 	
-	manager.on('test', function(arg) {
+	manager.on('test', function (arg) {
 		test.equals(arg, 'arg', "test event occured with right arg");
 	});
 	
-	manager.default('test', function(arg) {
+	manager.default('test', function (arg) {
 		test.equals(arg, 'arg', "called once with the right arg");
 		return false;
 	});
 	
-	var i = 0;
-	manager.override('test', function(arg) {
+	manager.override('test', function (arg) {
 		test.equals(arg, 'arg', "called twice");
-		if(i === 0) {
-			i++;
+		if (i === 0) {
+			i += 1;
 			return this.next(arg);
 		} else {
 			return true;
@@ -33,21 +33,21 @@ exports["test override behaviour"] = function(test) {
 	test.done();
 };
 
-exports["test EventManager.negotiate vs EventManager.emit"] = function(test) {
+exports["test EventManager.negotiate vs EventManager.emit"] = function (test) {
 	test.expect(2 + 2);
 
 	var manager = new EventManager();
-	manager.on('event that does not exist', function() {
+	manager.on('event that does not exist', function () {
 		test.ok(true, "event emitted twice");
 	});
 	
-	test.doesNotThrow(function() {
+	test.doesNotThrow(function () {
 		manager.emit('event that does not exist');
 	});
 	
-	test.throws(function() {
+	test.throws(function () {
 		manager.negotiate('event that does not exist');
-	})
+	});
 	
 	test.done();
 };

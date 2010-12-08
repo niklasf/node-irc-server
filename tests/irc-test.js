@@ -1,21 +1,20 @@
 var irc = require('../lib/irc'),
 	EventEmitter = require('events').EventEmitter;
 
-exports["test as network server"] = function(test) {
+exports["test as network server"] = function (test) {
 	test.expect(0);
 	
 	var server = irc.createServer();
 	server.listen(7834, '127.0.0.1', test.done);
 };
 
-exports["ping the server"] = function(test) {
+exports["ping the server"] = function (test) {
 	test.expect(3);
 
-	var server = irc.createServer();
+	var server = irc.createServer(),
+		client = new EventEmitter();
 	
-	var client = new EventEmitter();
-	
-	client.deliver = function(from, command, args) {
+	client.deliver = function (from, command, args) {
 		test.equals(from, server.name, 'back from server');
 		test.equals(command, 'PONG', 'sent PONG');
 		test.deepEqual(args, [server.name, 'test']);
@@ -28,18 +27,20 @@ exports["ping the server"] = function(test) {
 	test.done();
 };
 
-exports["unregistered quit"] = function(test) {
+exports["unregistered quit"] = function (test) {
 	test.expect(2);
 
-	var server = irc.createServer();
+	var server = irc.createServer(),
+		client = new EventEmitter();
 	
-	var client = new EventEmitter();
-	client.deliver = function(from, command, params) {
+	client.deliver = function (from, command, params) {
 		test.equals(command, 'ERROR');
 	};
-	client.end = function() {
+	
+	client.end = function () {
 		test.ok(true, 'Connection closed');
 	};
+	
 	server.addClient(client);
 	
 	client.emit('message', 'QUIT :See you');
@@ -47,15 +48,14 @@ exports["unregistered quit"] = function(test) {
 	test.done();
 };
 
-exports["authenticate"] = function(test) {
+exports["authenticate a client"] = function (test) {
 	test.expect(3);
 	
-	var server = irc.createServer();
+	var server = irc.createServer(),
+		client = new EventEmitter(),
+		recieved = [];
 	
-	var client = new EventEmitter();
-	
-	var recieved = [];
-	client.deliver = function(from, command, args) {
+	client.deliver = function (from, command, args) {
 		recieved.push(command.toString());
 	};
 	
@@ -71,10 +71,10 @@ exports["authenticate"] = function(test) {
 	test.done();
 };
 
-exports["presence of options"] = function(test) {
+exports["presence of options"] = function (test) {
 	test.expect(7 + 2);
 
-	server = irc.createServer();
+	var server = irc.createServer();
 	
 	test.notStrictEqual(server.name, undefined);
 	test.notStrictEqual(server.ip, undefined);
