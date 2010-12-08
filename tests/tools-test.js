@@ -75,8 +75,8 @@ exports["scandinavian case conversion"] = function(test) {
 	test.strictEqual("{}|^".toScandinavianLowerCase(), '{}|^');
 	test.strictEqual("\\[]~".toScandinavianLowerCase(), '|{}^');
 	test.strictEqual(
-			"Any text \t in [scandi]~LowerCase \\ lang".toScandinavianLowerCase,
-			"any text \t in {scandi}^LowerCase | lang");
+			"Any text \t in [scandi]~LowerCase \\ lg".toScandinavianLowerCase(),
+			"any text \t in {scandi}^lowercase | lg");
 	
 	test.done();
 };
