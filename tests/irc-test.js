@@ -70,3 +70,22 @@ exports["authenticate"] = function(test) {
 
 	test.done();
 };
+
+exports["presence of options"] = function(test) {
+	test.expect(7 + 2);
+
+	server = irc.createServer();
+	
+	test.notStrictEqual(server.name, undefined);
+	test.notStrictEqual(server.ip, undefined);
+	test.notStrictEqual(server.port, undefined);
+	test.notStrictEqual(server.version, undefined);
+	test.notStrictEqual(server.creation, undefined);
+	test.notStrictEqual(server.usermodes, undefined);
+	test.notStrictEqual(server.channelmodes, undefined);
+	
+	test.notStrictEqual(server.motd, undefined);
+	test.ok(Array.isArray(server.motd));
+	
+	test.done();
+};
