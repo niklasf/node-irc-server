@@ -89,3 +89,32 @@ exports["presence of options"] = function (test) {
 	
 	test.done();
 };
+
+exports["test registered quit"] = function (test) {
+	test.expect(5);
+	
+	var server = irc.createServer(),
+		client = new EventEmitter();
+	
+	client.deliver = function (from, command, args) {
+		if (command.toString() === 'QUIT') {
+			test.equals(from, 'nickThatIsNotInUse!abc', 'from valid');
+			test.strictEqual(args.length, 1, 'reason given');
+		}
+	};
+	
+	client.end = function () {
+		test.ok('Connection closed');
+	};
+	
+	server.addClient(client);
+	client.emit('message', 'NICK nickThatIsNotInUse');
+	client.emit('message', 'USER abc abc abc abc');
+	
+	test.equals(client.name, 'nickThatIsNotInUse', 'Nickname applied');
+	test.ok(client.registered, 'Client registered');
+	
+	client.emit('message', 'QUIT :bye');
+	
+	test.done();
+};
