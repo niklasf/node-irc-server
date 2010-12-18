@@ -200,3 +200,21 @@ exports["test away message"] = function (test) {
 	
 	test.done();
 };
+
+exports["survice connection error"] = function (test) {
+	test.expect(2);
+	
+	var server = irc.createServer(),
+		client = new EventEmitter();
+	
+	test.throws(function () {
+		client.emit('error', 'May this be fatal');
+	});
+	
+	server.addClient(client);
+	test.doesNotThrow(function () {
+		client.emit('error', 'This should not be fatal');
+	});
+	
+	test.done();
+};
