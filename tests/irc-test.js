@@ -118,3 +118,40 @@ exports["test registered quit"] = function (test) {
 	
 	test.done();
 };
+
+exports["test private messaging"] = function (test) {
+	test.expect(1 + 1 + 1 + 4 * 2);
+	
+	var server = irc.createServer(),
+		alice = new EventEmitter(),
+		bob = new EventEmitter(),
+		ignore = function () { };
+	
+	server.addClient(alice);
+	alice.deliver = ignore;
+	alice.emit('message', 'NICK alice');
+	alice.emit('message', 'USER abc abc abc abc');
+	test.ok(alice.registered, 'Alice registered');
+	
+	alice.deliver = function (from, command, args) {
+		test.equals(command, 401, 'No such nick');
+	};
+	alice.emit('message', 'PRIVMSG bob :Hello bob');
+	
+	server.addClient(bob);
+	bob.deliver = ignore;
+	bob.emit('message', 'NICK boB');
+	bob.emit('message', 'USER abc abc abc abc');
+	test.ok(bob.registered, 'Bob registered');
+	
+	// (Called twice for bob and alice)
+	bob.deliver = alice.deliver = function (from, command, args) {
+		test.equals(from, 'alice!abc');
+		test.equals(command, 'PRIVMSG');
+		test.equals(args[0], 'alice');
+		test.equals(args[1], 'Hi there!');
+	};
+	alice.emit('message', 'PRIVMSG Bob,aLice :Hi there!');
+	
+	test.done();
+};
