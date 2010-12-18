@@ -148,7 +148,7 @@ exports["test private messaging"] = function (test) {
 	bob.deliver = alice.deliver = function (from, command, args) {
 		test.equals(from, 'alice!abc');
 		test.equals(command, 'PRIVMSG');
-		test.equals(args[0], 'alice');
+		test.equals(args[0], 'bob');
 		test.equals(args[1], 'Hi there!');
 	};
 	alice.emit('message', 'PRIVMSG Bob,aLice :Hi there!');
@@ -196,7 +196,7 @@ exports["test away message"] = function (test) {
 	
 	bob.deliver = ignore;
 	bob.emit('message', 'AWAY');
-	test.equals(bob.away, false);
+	test.strictEqual(bob.away, undefined);
 	
 	test.done();
 };
