@@ -145,10 +145,16 @@ exports["test private messaging"] = function (test) {
 	test.ok(bob.registered, 'Bob registered');
 	
 	// (Called twice for bob and alice)
-	bob.deliver = alice.deliver = function (from, command, args) {
+	bob.deliver = function (from, command, args) {
 		test.equals(from, 'alice!abc');
 		test.equals(command, 'PRIVMSG');
-		test.equals(args[0], 'bob');
+		test.equals(args[0].toScandinavianLowerCase(), 'bob');
+		test.equals(args[1], 'Hi there!');
+	};
+	alice.deliver = function (from, command, args) {
+		test.equals(from, 'alice!abc');
+		test.equals(command, 'PRIVMSG');
+		test.equals(args[0].toScandinavianLowerCase(), 'alice');
 		test.equals(args[1], 'Hi there!');
 	};
 	alice.emit('message', 'PRIVMSG Bob,aLice :Hi there!');
