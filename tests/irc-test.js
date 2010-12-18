@@ -155,3 +155,48 @@ exports["test private messaging"] = function (test) {
 	
 	test.done();
 };
+
+exports["test away message"] = function (test) {
+	test.expect(2 + 1 + 1 + 1 + 5 + 1);
+	
+	var server = irc.createServer(),
+		alice = new EventEmitter(),
+		bob = new EventEmitter(),
+		ignore = function () { };
+	
+	server.addClient(bob);
+	bob.deliver = ignore;
+	bob.emit('message', 'NICK bob');
+	bob.emit('message', 'USER abc abc abc abc');
+	test.ok(bob.registered, 'Bob registered');
+	
+	bob.deliver = function (from, command, args) {
+		test.equals(command, 306, 'Bob has been marked as beeing away');
+	};
+	bob.emit('message', 'AWAY :brb');
+	test.equals(bob.away, 'brb');
+	
+	server.addClient(alice);
+	alice.deliver = ignore;
+	alice.emit('message', 'NICK alice');
+	alice.emit('message', 'USER abc abc abc abc');
+	test.ok(alice.registered, 'Alice registered');
+	
+	bob.deliver = function (from, command, args) {
+		test.equals(command, 'PRIVMSG');
+	};
+	alice.deliver = function (from, command, args) {
+		test.equals(from, server.name);
+		test.equals(command, 301);
+		test.equals(args[0], 'alice');
+		test.equals(args[1], 'bob');
+		test.equals(args[2], 'brb');
+	};
+	alice.emit('message', 'PRIVMSG bob :how are you?');
+	
+	bob.deliver = ignore;
+	bob.emit('message', 'AWAY');
+	test.equals(bob.away, false);
+	
+	test.done();
+};
