@@ -224,3 +224,27 @@ exports["survice connection error"] = function (test) {
 	
 	test.done();
 };
+
+exports["try to join channel without # or &"] = function (test) {
+	test.expect(1 + 4);
+
+	var server = irc.createServer(),
+		client = new EventEmitter(),
+		ignore = function () { };
+	
+	server.addClient(client);
+	client.deliver = ignore;
+	client.emit('message', 'USER abc abc abc abc');
+	client.emit('message', 'NICK client');
+	test.ok(client.registered);
+	
+	client.deliver = function (from, command, args) {
+		test.equals(command, 403, 'No such channel');
+		test.equals(args[0], 'client');
+		test.equals(args[1], 'test');
+		test.equals(args[2], 'No such channel');
+	};
+	client.emit('message', 'JOIN test');
+	
+	test.done();
+};
