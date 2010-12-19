@@ -18,7 +18,7 @@ your function by calling *negotiate*.
         return first / secound;
     });
     
-    manager.on('add', function (first, secound) {
+    manager.on('divide', function (first, secound) {
         console.log('Someone divided some numbers.');
         return 'Will be ignored';
     });
