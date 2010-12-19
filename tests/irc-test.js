@@ -248,3 +248,28 @@ exports["try to join channel without # or &"] = function (test) {
 	
 	test.done();
 };
+
+exports["join a channel list"] = function (test) {
+	test.expect(1 + 1);
+
+	var server = irc.createServer(),
+		client = new EventEmitter(),
+		ignore = function () { },
+		channels = [];
+	
+	server.addClient(client);
+	client.deliver = ignore;
+	client.emit('message', 'USER abc abc abc abc');
+	client.emit('message', 'NICK client');
+	test.ok(client.registered);
+	
+	client.deliver = function (from, command, args) {
+		if (command === 'JOIN') {
+			channels.push(args[0]);
+		}
+	};
+	client.emit('message', 'JOIN #first,#secound,#third firstPassPhrase');
+	test.deepEqual(channels, '#first', '#secound', '#third');
+	
+	test.done();
+};
