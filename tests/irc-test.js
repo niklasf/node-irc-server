@@ -275,7 +275,8 @@ exports["join a channel list"] = function (test) {
 };
 
 exports["check welcome messages when joining a channel"] = function (test) {
-test.expect(1 + 4);
+	test.expect(1 + 4);
+	
 	var server = irc.createServer(),
 		client = new EventEmitter(),
 		ignore = function () { },
@@ -296,4 +297,31 @@ test.expect(1 + 4);
 	test.ok(commands.contains('332'), 'RPL_TOPIC');
 	test.ok(commands.contains('353'), 'RPL_NAMREPLY');
 	test.ok(commands.contains('366'), 'RPL_ENDOFNAMES');
+	
+	test.done();
+};
+
+exports["test presence of sepcial message JOIN 0"] = function (test) {
+	test.expect(1 + 2);
+	
+	var server = irc.createServer(),
+		client = new EventEmitter(),
+		ignore = function () { },
+		commands = [];
+	
+	server.addClient(client);
+	client.deliver = ignore;
+	client.emit('message', 'USER abc abc abc abc');
+	client.emit('message', 'NICK client');
+	test.ok(client.registered);
+	
+	client.deliver = function (from, command, args) {
+		commands.push(command.toString());
+	};
+	client.emit('message', 'JOIN #channel,0');
+	
+	test.ok(commands.contains('JOIN'), 'joined a channel');
+	test.ok(commands.contains('PART'), '0 parts all channels');
+	
+	test.done();
 };
