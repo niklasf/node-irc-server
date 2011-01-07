@@ -4,6 +4,11 @@ Implementation of the
 [IRC server protocol](http://www.apps.ietf.org/rfc/rfc2812.html) using
 [node.js](http://nodejs.org).
 
+Demo
+----
+A demo is currently running on 'niklasf.no.de'.
+Feel free to try and connect. Note that channels are not fully supported yet.
+
 Warning
 -------
 You probably can't use this in production yet. Among the reasons are:
