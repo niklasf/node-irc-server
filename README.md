@@ -8,11 +8,6 @@ Obsolete
 --------
 This project is obsolute. [alexyoung/ircd.js](https://github.com/alexyoung/ircd.js) implements a larger command set of the RFCs and does that in a nicer way. 
 
-Demo
-----
-A demo is currently running on 'niklasf.no.de'.
-Feel free to try and connect. Note that channels are not fully supported yet.
-
 Usage
 -----
 
