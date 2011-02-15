@@ -4,18 +4,14 @@ Implementation of the
 [IRC server protocol](http://www.apps.ietf.org/rfc/rfc2812.html) using
 [node.js](http://nodejs.org).
 
+Obsolete
+--------
+This project is obsolute. [alexyoung/ircd.js](https://github.com/alexyoung/ircd.js) implements a larger command set of the RFCs and does that in a nicer way. 
+
 Demo
 ----
 A demo is currently running on 'niklasf.no.de'.
 Feel free to try and connect. Note that channels are not fully supported yet.
-
-Warning
--------
-You probably can't use this in production yet. Among the reasons are:
-
-- Not the full command set is supported
-- No server-server communication is supported
-- This is not stable afterall
 
 Usage
 -----
