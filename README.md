@@ -6,7 +6,7 @@ Implementation of the
 
 Obsolete
 --------
-This project is obsolute. [alexyoung/ircd.js](https://github.com/alexyoung/ircd.js) implements a larger command set of the RFCs and does that in a nicer way. 
+This project is obsolete. [alexyoung/ircd.js](https://github.com/alexyoung/ircd.js) implements a larger command set of the RFCs and does that in a nicer way. 
 
 Usage
 -----
